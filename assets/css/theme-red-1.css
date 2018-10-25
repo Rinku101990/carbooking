@@ -2492,7 +2492,7 @@ input[type=checkbox] {
     content: "\f002";
     display: block;
     text-indent: 0;
-    margin-top: -13px;
+    margin-top: -1px;
     font-size: 26px;
   }
 }

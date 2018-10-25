@@ -1,6 +1,4 @@
-
-		
-		<footer class="footer" style="padding-top:30px">
+<footer class="footer" style="padding-top:30px">
         <div class="footer-widgets">
             <div class="container">
 			<h2 class="section-title">
@@ -12,7 +10,7 @@
                         <div class="widget widget-categories">
                             <h4 class="widget-title">Texi Services from Dehli</h4>
                             <ul>
-                                <?php $all_catssss= "SELECT * from trips where trip_from='Delhi' order by trip_name";
+                                <?php $all_catssss= "SELECT * from trips where trip_from='Delhi' AND triptype_name!='One way' order by trip_name";
 											$run_querys=mysqli_query($admin_con, $all_catssss);
 											 while($results=mysqli_fetch_array($run_querys)){
 											?>
@@ -26,7 +24,7 @@
                         <div class="widget widget-categories">
                             <h4 class="widget-title">Texi Services From Noida</h4>
                             <ul>
-                                <?php $all_catssss= "SELECT * from trips where trip_from='Noida' order by trip_name";
+                                <?php $all_catssss= "SELECT * from trips where trip_from='Noida' AND triptype_name!='One way' order by trip_name";
 											$run_querys=mysqli_query($admin_con, $all_catssss);
 											 while($results=mysqli_fetch_array($run_querys)){
 											?>
@@ -40,7 +38,7 @@
                         <div class="widget widget-categories">
                             <h4 class="widget-title">Texi Services from Gurgaon</h4>
                             <ul>
-                                <?php $all_catssss= "SELECT * from trips where trip_from='Gurgaon' order by trip_name";
+                                <?php $all_catssss= "SELECT * from trips where trip_from='Gurgaon' AND triptype_name!='One way' order by trip_name";
 											$run_querys=mysqli_query($admin_con, $all_catssss);
 											 while($results=mysqli_fetch_array($run_querys)){
 											?>

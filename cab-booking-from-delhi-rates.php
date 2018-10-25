@@ -36,20 +36,6 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 </head>
 <body id="home" class="wide">
-<!-- PRELOADER -->
-<div id="preloader">
-    <div id="preloader-status">
-        <div class="spinner">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
-        </div>
-        <div id="preloader-title">Loading</div>
-    </div>
-</div>
-<!-- /PRELOADER -->
 
 <!-- WRAPPER -->
 <div class="wrapper">
@@ -83,38 +69,38 @@
                 <div class="row">
                     <div class="col-md-12">
 					 <table id="myTable" class="table table-striped table-condensed table-bordered no-margin">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Trip From</th>
-                                                <th>Trip To</th>
-                                                <th>Price/Sudan</th>
-                                                <th>Price/SUV</th>
-                                                <th>Action</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                       
-                                        <tbody>
-											<?php $all_cats= "SELECT * from rate_list order by from_loc";
-											$run_query=mysqli_query($admin_con, $all_cats);
-											$i=1;
-											 while($result=mysqli_fetch_array($run_query)){
-											?>
-                                            <tr>
-                                                <td><?php echo $i; ?>.</td>
-                                                <td><?php echo $result['from_loc']?></td>
-                                                <td><?php echo $result['to_loc']?></td>
-                                                <td><?php echo $result['pricesudan']?></td>
-                                                <td><?php echo $result['pricesuv']?></td>
-                                                <td><a class="btn btn-primary btn-sm" href="contact-us.php"> <i class="fa fa-shopping-cart"></i> Book Now</a></td>
-                                            </tr>
-                                            <?php $i++;} ?>
-                                        </tbody>
-                                    </table></div>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Trip From</th>
+                                <th>Trip To</th>
+                                <th>Price/Sudan</th>
+                                <th>Price/SUV</th>
+                                <th>Action</th>
+                                
+                            </tr>
+                        </thead>
+                       
+                        <tbody>
+							<?php $all_cats= "SELECT * from rate_list order by from_loc";
+							$run_query=mysqli_query($admin_con, $all_cats);
+							$i=1;
+							 while($result=mysqli_fetch_array($run_query)){
+							?>
+                            <tr>
+                                <td><?php echo $i; ?>.</td>
+                                <td><?php echo $result['from_loc']?></td>
+                                <td><?php echo $result['to_loc']?></td>
+                                <td><?php echo $result['pricesudan']?></td>
+                                <td><?php echo $result['pricesuv']?></td>
+                                <td><a class="btn btn-primary btn-sm" href="contact-us.php"> <i class="fa fa-shopping-cart"></i> Book Now</a></td>
+                            </tr>
+                            <?php $i++;} ?>
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
+        </div>
         </section>
         <!-- /PAGE -->
 		<section class="page-section no-padding-top">

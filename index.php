@@ -32,21 +32,6 @@
     <script src="assets/plugins/modernizr.custom.js"></script>
 </head>
 <body id="home" class="wide">
-<!-- PRELOADER -->
-<div id="preloader">
-    <div id="preloader-status">
-        <div class="spinner">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
-        </div>
-        <div id="preloader-title">Loading</div>
-    </div>
-</div>
-<!-- /PRELOADER -->
-
 <!-- WRAPPER -->
 <div class="wrapper">
 
@@ -80,29 +65,27 @@
                                                         <div class="row row-inputs">
                                                             <div class="container-fluid">
 															<div class="col-sm-12">
-                                                                    <div class="form-group has-icon has-label">
-                                                                        <label for="formSearchUpLocation3">Trip Type</label>
-                                                                        <select name="triptype" class="form-control" id="formSearchUpLocation3" required>
-																		<option value="">Select Trip Type</option>
-																		<?php $all_cats= "SELECT * from triptypes order by triptype_name";
-																	$run_query=mysqli_query($admin_con, $all_cats);
-																	while($result=mysqli_fetch_array($run_query)){
-																			?>
-																		<option value="<?php echo $result['triptype_name']?>"><?php echo $result['triptype_name']?></option>
-											                        <?php }?>
-																		</select>
-                                                                        <span class="form-control-icon"><i class="fa fa-location-arrow"></i></span>
-                                                                    </div>
-                                                                </div>
-																
+                                                                <div class="form-group has-icon has-label">
+                                                                        <label for="formSearchUpLocation3">Trip Type</label><br />
+                                                                        <?php $all_cats= "SELECT * from triptypes order by triptype_name";
+                                                                            $run_query=mysqli_query($admin_con, $all_cats);
+                                                                            while($result=mysqli_fetch_array($run_query)){ 
+                                                                                    ?>
+                                                                            <div class="radio radio-inline">
+                                                                                <input type="radio" id="inlineRadio1" value="<?php echo $result['triptype_name']?>" name="triptype" checked="">
+                                                                                <label for="inlineRadio1"><?php echo $result['triptype_name']?></label>
+                                                                            </div>
+                                                                        <?php }?>
+                                                                        </div>
+																</div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group has-icon has-label">
                                                                         <label for="toSearchUpLocation3">Picking Up Location</label>
                                                                         <select name="piclocation"  class="selectpicker input-price" data-live-search="true" data-width="100%"
                                                     data-toggle="tooltip" title="Select" required>
 																		<option value="">Select City</option>
-																		<?php $all_cats= "SELECT * from locations order by city_name";
-											$run_query=mysqli_query($admin_con, $all_cats);
+																		<?php $all_cats= "SELECT * FROM locations WHERE `city_name` IN ('Delhi','Noida','Ghaziabad','Faridabad','Gurgaon','Haryana')";
+											                 $run_query=mysqli_query($admin_con, $all_cats);
 											$i=1;
 											 while($result=mysqli_fetch_array($run_query)){
 											?>
@@ -132,14 +115,14 @@
 																<div class="col-sm-6">
                                                                     <div class="form-group has-icon has-label">
                                                                         <label for="formSearchUpDate3">Picking Up Date</label>
-                                                                        <input name="picdate" type="date" class="form-control" id="formSearchUpDate3" placeholder="dd/mm/yyyy" required>
+                                                                        <input name="picdate" type="date" class="form-control" id="formSearchUpDate3" placeholder="dd/mm/yyyy">
                                                                         <span class="form-control-icon"><i class="fa fa-calendar"></i></span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6"">
-                                                                    <div class="form-group has-icon has-label">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group has-icon has-label dropLocationid">
                                                                         <label for="formSearchUpDate2">Dropping off Date</label>
-                                                                        <input name="dropdate" type="date" class="form-control" id="formSearchUpDate2" placeholder="dd/mm/yyyy" required>
+                                                                        <input name="dropdate" type="date" class="form-control" id="formSearchUpDate2" placeholder="dd/mm/yyyy">
                                                                         <span class="form-control-icon"><i class="fa fa-calendar"></i></span>
                                                                     </div>
                                                                 </div>
@@ -164,10 +147,6 @@
 
                                                 <h2 class="caption-title">For rental Cars</h2>
                                                 <h3 class="caption-subtitle">Best Deals</h3>
-                                                <p class="caption-text">
-                                                    Sales Up  15% Off<br/>
-                                                    All Rental Cars Start from  Rs.2,000
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -187,13 +166,6 @@
                                             <div class="caption-content">
                                                 <h2 class="caption-title">For rental Cars</h2>
                                                 <h3 class="caption-subtitle"><span>Best Deals</span></h3>
-                                                <p class="caption-text">
-                                                    Sales Up  15% Off<br/>
-                                                    All Rental Cars Start from  Rs.2,000
-                                                </p>
-                                                <p class="caption-text">
-                                                    <a class="btn btn-theme btn-theme-md" href="cab-booking-from-delhi-rates.php">See All Rates</a>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -528,6 +500,38 @@ $(document).ready(function(){
             $("#piclocation").css({"display": "none"});
         }
     });
+    // SHOW AND HIDE ONE WAY AND ROUND TRIP //
+    $("input[name$='triptype']").click(function(){
+        var type_name = $(this).val();
+        if(type_name=="One way"){
+            $(".dropLocationid").hide();
+        }
+        if(type_name=="Round"){
+            $(".dropLocationid").show()
+        }
+    });
+
+    // SELECT TRIP TYPE //
+    // $("input[name$='triptype']").click(function(){
+    //     var trip_id = $(this).val();
+    //     $.ajax({
+    //         method:"post",
+    //         url:"check_list.php",
+    //         data:{trip_id:trip_id},
+    //         dataType:"json",
+    //         success:function(data){
+    //             console.log(data);
+
+    //             var i=0;
+    //             var prHtm='';
+    //             for(var key in data.locInfo){
+    //                 prHtm +='<option value='+data.locInfo[i].rate_id+'>'+data.locInfo[i].size_related_price+'</option>';
+    //                 i++;
+    //             }
+    //             $("#priceData").html(prHtm);
+    //         }
+    //     });
+    // });
 });
 </script>
 </body>

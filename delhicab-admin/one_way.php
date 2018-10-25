@@ -6,7 +6,6 @@ session_start();
        {
            header("Location:index.php");  
        }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +17,7 @@ session_start();
     <meta name="keywords" content="">
     <meta name="author" content="Bootstrap Gallery">
     <link rel="shortcut icon" href="img/logo.png">
-    <title>Delhi Car Booking | Trips</title>
+    <title>Delhi Car Booking | One Way Trips</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/animate.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
@@ -48,13 +47,14 @@ session_start();
                             
                             <div class="panel-body">
 							<?php if(isset($_GET['msg'])) { ?><p style="color: green; font-weight:600"><i class="fa fa-thumbs-up"></i> Trip has been added.</p><?php } ?>
-                                <form method="post" action="inserttrip.php" class="form-horizontal" enctype="multipart/form-data">
+                                <form method="post" action="insert_one_way.php" class="form-horizontal" enctype="multipart/form-data">
                                     <fieldset>
-                                        <legend>Enter Trip Details <a href="one_way.php" class="btn btn-success btn-xs">One Way Trip</a></legend>
+                                        <legend>Enter Trip Details <a href="trips.php" class="btn btn-info btn-xs">Round Trip</a></legend>
+
                                         <div class="form-group">
                                             <label class="col-lg-3 control-label">Trip Type</label>
                                             <div class="col-lg-4">
-                                                <select class="form-control" name="triptypename" required="">
+                                                <select class="form-control" name="triptypename_one" required="">
                                                     <option>Select a Trip Type</option>
                                                     <?php $all_trip = "SELECT * from triptypes order by triptype_name";
                                                     $result_trip = mysqli_query($admin_con, $all_trip);
@@ -70,15 +70,15 @@ session_start();
                                         <div class="form-group">
                                             <label class="col-lg-3 control-label">Trip Name</label>
                                             <div class="col-lg-4">
-                                                <input type="text" class="form-control" name="tripname" required="">
+                                                <input type="text" class="form-control" name="tripname_one" placeholder="Enter Trip Name" required="required">
                                             </div>
                                         </div>
 										
 										<div class="form-group has-feedback">
                                             <label class="col-lg-3 control-label">Trip Start from</label>
                                             <div class="col-lg-4">
-                                                <select class="form-control" name="tripstart" required="">
-                                                    <option>-- Select a City --</option>
+                                                <select class="form-control" name="tripstart_one" required="">
+                                                    <option>-- Select a Trip Start From --</option>
 													<?php $all_cats = "SELECT * from locations order by city_name";
         											$run_query=mysqli_query($admin_con, $all_cats);
         											$i=1;
@@ -93,8 +93,8 @@ session_start();
 										<div class="form-group has-feedback">
                                             <label class="col-lg-3 control-label">Trip destination to</label>
                                             <div class="col-lg-4">
-                                                 <select class="form-control" name="tripdest" required="">
-                                                    <option>-- Select a City --</option>
+                                                 <select class="form-control" name="tripdest_one" required="">
+                                                    <option>-- Select a Trip Destination To --</option>
 													<?php $all_cats1= "SELECT * from locations order by city_name";
 											$run_query1=mysqli_query($admin_con, $all_cats1);
 											
@@ -109,7 +109,7 @@ session_start();
 										<div class="form-group has-feedback">
                                             <label class="col-lg-3 control-label">Assign Vehicles</label>
                                             <div class="col-lg-4">
-                                                <select class="form-control" name="vehicles[]" required="" multiple>
+                                                <select class="form-control" name="vehicles_one[]" required="" multiple>
 													<?php $all_catsz= "SELECT * from vehicles order by vehicle_name";
 											$run_queryz=mysqli_query($admin_con, $all_catsz);
 										
@@ -122,45 +122,41 @@ session_start();
                                         </div>
 										
 										<div class="form-group">
-                                            <label class="col-lg-3 control-label">Distance Between</label>
+                                            <label class="col-lg-3 control-label">Distance Price</label>
                                             <div class="col-lg-4">
-                                                <input type="text" class="form-control" name="tripdictance" required="">
+                                                <input type="text" class="form-control" name="trip_price" required="required">
                                             </div>
                                         </div>
 										<div class="form-group">
                                             <label class="col-lg-3 control-label">Image</label>
                                             <div class="col-lg-4">
-                                                <input type="file" class="form-control" name="tripimage" required="">
+                                                <input type="file" class="form-control" name="tripimage_one" required="required">
                                             </div>
                                         </div>
 										<div class="form-group">
                                             <label class="col-lg-3 control-label">Title</label>
                                             <div class="col-lg-6">
-                                                <textarea rows="2" class="form-control" name="triptitle"></textarea>
+                                                <textarea rows="2" class="form-control" name="triptitle_one" placeholder="Enter Trip Title"></textarea>
                                             </div>
                                         </div>
 										<div class="form-group">
                                             <label class="col-lg-3 control-label">Description</label>
                                             <div class="col-lg-6">
-                                               <textarea rows="4" class="form-control" name="tripdescription"></textarea>
+                                               <textarea rows="4" class="form-control" name="tripdescription_one" placeholder="Enter Trip Description"></textarea>
                                             </div>
                                         </div>
 										<div class="form-group">
                                             <label class="col-lg-3 control-label">Keywords</label>
                                             <div class="col-lg-6">
-                                                <textarea rows="4" class="form-control" name="tripkeywords"></textarea>
+                                                <textarea rows="4" class="form-control" name="tripkeywords_one" placeholder="EnterTrip Keywords"></textarea>
                                             </div>
                                         </div>
 										<div class="form-group">
 										<label class="col-lg-3 control-label">About Trip</label>
 										 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-										   <textarea rows="8" class="form-control" name="abouttrip"></textarea>
+										   <textarea rows="8" class="form-control" name="abouttrip_one" placeholder="Enetr About Trip"></textarea>
 										   </div>
 										</div>
-										
-										
-										
-										 
                                         <div class="form-group">
                                         <div class="col-lg-6 col-lg-offset-6">
                                             <button type="submit" class="btn btn-success">Submit</button>
@@ -191,7 +187,7 @@ session_start();
                                                 <th>Trip Type</th>
                                                 <th>Trip From</th>
                                                 <th>Trip To</th>
-                                                <th>Trip Distance</th>
+                                                <th>Trip Price</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                                 
@@ -199,7 +195,7 @@ session_start();
                                         </thead>
                                        
                                         <tbody>
-											<?php $all_cats= "SELECT * from trips WHERE triptype_name='Round'";
+											<?php $all_cats= "SELECT * from trips WHERE triptype_name='One way'";
 											$run_query=mysqli_query($admin_con, $all_cats);
 											$i=1;
 											 while($result=mysqli_fetch_array($run_query)){
@@ -210,7 +206,7 @@ session_start();
                                                 <td><?php echo $result['triptype_name']?></td>
                                                 <td><?php echo $result['trip_from']?></td>
                                                 <td><?php echo $result['trip_end']?></td>
-                                                <td><?php echo $result['distance']."Km"; ?></td>
+                                                <td><?php echo "Rs ".$result['trip_price']; ?></td>
                                                 <td><?php echo $result['status']?></td>
                                                 
                                                 <td><a href="delete-trip.php?delete=<?php echo $result['trip_id']?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> </a>

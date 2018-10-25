@@ -4,24 +4,6 @@ header("Pragma: no-cache");
 header("Cache-Control: no-cache");
 header("Expires: 0");
 
-include('delhicab-admin/connection.php');
-
-$billablekm=$_POST['billablekm'];
-$triptype=$_POST['triptype'];
-$drivercharges=$_POST['drivercharges'];
-$distancecharge=$_POST['distancecharge'];
-$total=$_POST['total'];
-$serviceCharge = floor(($total)*(2/100));
-$finalTotalAmount = $total+$serviceCharge;
-$picdate=$_POST['picdate'];
-$dropdate=$_POST['dropdate'];
-$days=$_POST['days'];
-$from=$_POST['from'];
-$to=$_POST['to'];
-$vehiclename=$_POST['vehiclename'];
-$vehicle_id=$_POST['vehicle_id'];
-$vehicle_image=$_POST['vehicle_image'];
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -58,20 +40,6 @@ $vehicle_image=$_POST['vehicle_image'];
     <script src="assets/plugins/modernizr.custom.js"></script>
 </head>
 <body id="home" class="wide">
-<!-- PRELOADER -->
-<div id="preloader">
-    <div id="preloader-status">
-        <div class="spinner">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
-        </div>
-        <div id="preloader-title">Loading</div>
-    </div>
-</div>
-<!-- /PRELOADER -->
 
 <!-- WRAPPER -->
 <div class="wrapper">
@@ -104,6 +72,31 @@ $vehicle_image=$_POST['vehicle_image'];
 
                         <h3 class="block-title alt"><i class="fa fa-angle-down"></i>Taxi Information</h3>
                         <div class="car-big-card alt">
+                            <?php
+
+                            include('delhicab-admin/connection.php');
+
+                            if($_POST['triptype']=="Round"){
+
+                            $billablekm=$_POST['billablekm'];
+                            $triptype=$_POST['triptype'];
+                            $drivercharges=$_POST['drivercharges'];
+                            $distancecharge=$_POST['distancecharge'];
+                            $total=$_POST['total'];
+                            //$serviceCharge = floor(($total)*(2/100));
+                            $finalTotalAmount = $total;
+                            $twentyPercenteAmount = floor(($finalTotalAmount)*(20/100));
+                            $remainingAmount = $finalTotalAmount-$twentyPercenteAmount;
+                            $picdate=$_POST['picdate'];
+                            $dropdate=$_POST['dropdate'];
+                            $days=$_POST['days'];
+                            $from=$_POST['from'];
+                            $to=$_POST['to'];
+                            $vehiclename=$_POST['vehiclename'];
+                            $vehicle_id=$_POST['vehicle_id'];
+                            $vehicle_image=$_POST['vehicle_image'];
+
+                            ?>
                             <div class="row">
                                 <div class="col-md-6">
                                     <img style="width:100%" class="img-responsive" src="delhicab-admin/img/vehicles/<?php echo $vehicle_image;?>" alt="" />
@@ -120,8 +113,8 @@ $vehicle_image=$_POST['vehicle_image'];
                                                 <li>Dropping Off date - <?php echo date('jS M Y',strtotime($dropdate));?></li>
                                                 <li>Driver Charges - Rs.<?php echo $drivercharges;?></li>
                                                 <li>Travelling Charges - Rs.<?php echo number_format($distancecharge);?></li>
-                                                <li>Service Charges - Rs.<?php echo $serviceCharge;?></li>
                                                 <li>Total Charges - Rs.<?php echo number_format($total);?></li>
+                                                <li>Notes - <b style="color:#e60000">Tolls,Parking and State Permits as per actuals</b></li>
                                             </ul>
                                         </div>
                                         <div class="price">
@@ -130,6 +123,44 @@ $vehicle_image=$_POST['vehicle_image'];
                                     </div>
                                 </div>
                             </div>
+                        <?php }else{ 
+
+                            $triptype=$_POST['triptype'];
+                            $total =$_POST['total'];
+                            $finalTotalAmount = $total;
+                            $twentyPercenteAmount = floor(($finalTotalAmount)*(20/100));
+                            $remainingAmount = $finalTotalAmount-$twentyPercenteAmount;
+                            $picdate=$_POST['picdate'];
+                            $from=$_POST['from'];
+                            $to=$_POST['to'];
+                            $vehiclename=$_POST['vehiclename'];
+                            $vehicle_id=$_POST['vehicle_id'];
+                            $vehicle_image=$_POST['vehicle_image'];
+
+                        ?>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img style="width:100%" class="img-responsive" src="delhicab-admin/img/vehicles/<?php echo $vehicle_image;?>" alt="" />
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="car-details">
+                                        <div class="list">
+                                            <ul>
+                                                <li class="title">
+                                                    <h2><?php echo $vehiclename;?></h2>
+                                                    <i class="fa fa-paper-plane" ></i> From <?php echo $from;?> to <?php echo $to;?> (<?php echo $triptype;?>)
+                                                </li>
+                                                <li>Picking Up date - <?php echo date('jS M Y',strtotime($picdate));?></li>
+                                                <li>Price - Rs.<?php echo $total;?></li>
+                                            </ul>
+                                        </div>
+                                        <div class="price">
+                                            <strong>Rs.<?php echo number_format($finalTotalAmount);?></strong><i class="fa fa-info-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                         </div>
                         <hr class="page-divider half transparent"/>
 
@@ -147,8 +178,7 @@ $vehicle_image=$_POST['vehicle_image'];
 								<input type="hidden" name="drop_date" value="<?php echo $dropdate;?>"/>
 								<input type="hidden" name="trip_type" value="<?php echo $triptype;?>"/>
 								<input type="hidden" name="vehicle_name" value="<?php echo $vehiclename;?>"/>
-								<input type="hidden" name="total_charges" value="<?php echo $finalTotalAmount;?>"/>
-							
+							    <input type="hidden" name="total_charge" value="<?php echo $finalTotalAmount;?>">
                                 <div class="col-md-12">
                                     <div class="radio radio-inline">
                                         <input type="radio" id="inlineRadio1" value="Mr" name="Customer_type" checked="">
@@ -208,9 +238,14 @@ $vehicle_image=$_POST['vehicle_image'];
                                     <label for="accept">I accept all information and Payments etc</label>
                                 </div> -->
                                 <a href="index.php" style="color: #fff" class="btn btn-info pull-right btn-cancel"> << REPLAN</a>
-                                <button type="submit" class="btn btn-primary pull-right"> 100% Pay Now</button>
-                                <button type="submit" class="btn btn-success pull-right">20% Pay Now</button>
+                                <!-- <button type="submit" class="btn btn-primary pull-right"> 100% Pay Now</button>
+                                <button type="submit" class="btn btn-success pull-right">20% Pay Now</button> -->
+                                <input type="radio" name="payments" checked="checked" value="<?php echo $twentyPercenteAmount;?>"  /> 20% Pay
+                                <input type="radio" name="payments" value="<?php echo $finalTotalAmount;?>" /> 100% Pay
+                                <div id="PaymentAmount<?php echo $twentyPercenteAmount;?>" class="desc  pull-right" style="margin-right:5px"> <button type="submit" class="btn btn-success"><?php echo "Rs ".number_format($twentyPercenteAmount);?> Pay Now</button> </div>
+                                <div id="PaymentAmount<?php echo $finalTotalAmount;?>" class="desc pull-right" style="display: none; margin-right:5px"> <button type="submit" class="btn btn-primary"><?php echo "Rs ".number_format($finalTotalAmount);?> Pay Now</button> </div>
                             </div>
+                            
 						 </form>
                     </div>
                     <!-- /CONTENT -->
@@ -230,11 +265,13 @@ $vehicle_image=$_POST['vehicle_image'];
                                     <span class="media-object pull-left"><i class="fa fa-location-arrow"></i></span>
                                     <div class="media-body"><p>From <?php echo $from;?></p></div>
                                 </div>
+                                <?php if($_POST['triptype']=="Round"){ ?>
                                 <h5 class="widget-title-sub">Droping Off Location</h5>
                                 <div class="media">
                                     <span class="media-object pull-left"><i class="fa fa-calendar"></i></span>
                                     <div class="media-body"><p><?php echo date('jS M Y',strtotime($dropdate));?></p></div>
                                 </div>
+                                <?php }else{ } ?>
                                 <div class="media">
                                     <span class="media-object pull-left"><i class="fa fa-location-arrow"></i></span>
                                     <div class="media-body"><p>From <?php echo $from;?></p></div>
@@ -246,9 +283,11 @@ $vehicle_image=$_POST['vehicle_image'];
                         </div>
                       
 					  <div class="widget shadow widget-helping-center">
-                            <h4 class="widget-title">Helping Center</h4>
+                            <h4 class="widget-title">Note</h4>
                             <div class="widget-content">
-                                <p>Fro any kind of inquiry or for support call us on the given number. You can directly book our services with help of phone and email also.</p>
+                                <p><strong>1-</strong> Parking Charges at Airports along with toll, Road and other state taxes is not included in total fare.</p>
+                                <p><strong>2-</strong> These charges will have to be paid by you directly/reimbursed to the driver if he has paid it on your behalf</p>
+                                <p><strong>3-</strong> They will not feature on your invoice.</p>
                                 <h5 class="widget-title-sub">+91 753-298-1416</h5>
                                 <p><a href="mailto:info@delhicarbooking.in">Email: info@delhicarbooking.in</a></p>
                                 <div class="button">
@@ -308,12 +347,17 @@ $vehicle_image=$_POST['vehicle_image'];
 
 <!-- JS Page Level -->
 <script src="assets/js/theme-ajax-mail.js"></script>
-<script src="assets/js/theme.js">
-    // $(document).ready(function(){
-    //     $("#formSearchUpDate3").datetimepicker({
-    //         minDate:0
-    //     });
-    // });
+<script src="assets/js/theme.js"></script>
+<script>
+$(document).ready(function() {
+    $("input[name$='payments']").click(function() {
+        var divId = $(this).val();
+        //var displayMoney = $(this).attr("totalMoney");
+
+        $("div.desc").hide();
+        $("#PaymentAmount" + divId).show();
+    });
+});
 </script>
 
 

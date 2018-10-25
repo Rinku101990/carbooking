@@ -11,10 +11,30 @@ include('delhicab-admin/connection.php');
 $booking_from=$_POST['booking_from'];
 $booking_to=$_POST['booking_to'];
 $pick_date=$_POST['pick_date'];
-$drop_date=$_POST['drop_date'];
 $trip_type=$_POST['trip_type'];
+
+if(($trip_type)=="Round trip"){
+	$drop_date=$_POST['drop_date'];
+}else{
+	$drop_date='';
+}
+
 $vehicle_name=$_POST['vehicle_name'];
-$total_charges=$_POST['total_charges'];
+
+$total_charges = $_POST['total_charge'];
+if(isset($_POST['payments'])){
+
+	$payble_amount =  $_POST['payments'];
+	$total_charges = $_POST['total_charge'];
+	$remaining_amount = $total_charges-$payble_amount;
+
+}else{
+	
+	$payble_amount = $_POST['payments'];
+	$total_charges = $_POST['total_charge'];
+	$remaining_amount = $total_charges-$payble_amount;
+}
+
 $Customer_type=$_POST['Customer_type'];
 $cust_ref_no = $_POST['CUST_ID'];
 $customer_name=$_POST['customer_name'];
@@ -25,8 +45,10 @@ $additional=$_POST['additional'];
 
 $booking_number = $_POST['ORDER_ID'];
 	
-$q = "INSERT INTO booking_details (cust_reference_no,customer_name, Customer_type, customer_email, customer_phone, customer_address, additional, booking_from, booking_to, pick_date, drop_date, trip_type, vehicle_name, total_charges, payment_status, transaction_number, booking_status, booking_date, booking_number) values ('$cust_ref_no','$customer_name', '$Customer_type', '$customer_email', '$customer_phone', '$customer_address', '$additional', '$booking_from', '$booking_to', '$pick_date', '$drop_date', '$trip_type', '$vehicle_name', '$total_charges', 'Pending', 'Pending', 'Pending', NOW(), '$booking_number')";
+$q = "INSERT INTO booking_details (cust_reference_no,customer_name, Customer_type, customer_email, customer_phone, customer_address, additional, booking_from, booking_to, pick_date, drop_date, trip_type, vehicle_name, total_charges, payble_amount, remaining_amount, payment_status, transaction_number, booking_status, booking_date, booking_number) values ('$cust_ref_no','$customer_name', '$Customer_type', '$customer_email', '$customer_phone', '$customer_address', '$additional', '$booking_from', '$booking_to', '$pick_date', '$drop_date', '$trip_type', '$vehicle_name', '$total_charges', '$payble_amount', '$remaining_amount', 'Pending', 'Pending', 'Pending', NOW(), '$booking_number')";
 $run=mysqli_query($admin_con, $q);
+
+print_r($run);die;
 
 if($run)
 {
@@ -37,7 +59,7 @@ if($run)
 	$CUST_ID = $_POST["CUST_ID"];
 	$INDUSTRY_TYPE_ID = $_POST["INDUSTRY_TYPE_ID"];
 	$CHANNEL_ID = $_POST["CHANNEL_ID"];
-	$TXN_AMOUNT = $_POST["total_charges"];
+	$TXN_AMOUNT = $_POST["payments"];
 
 	// Create an array having all required parameters for creating checksum.
 	$paramList["MID"] = PAYTM_MERCHANT_MID;
